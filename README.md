@@ -6,7 +6,7 @@
 	<img src="https://img.shields.io/badge/Chart.js-4-FF6384?logo=chartdotjs&logoColor=white" alt="Chart.js" />
 	<img src="https://img.shields.io/badge/Font%20Awesome-6-228BE6?logo=fontawesome&logoColor=white" alt="Font Awesome" />
 </p>
-
+You can access it on https://medicine-tracker.free.nf/
 Med Tracker is a PHP/MySQL web application for searching medicines across pharmacies in Arba Minch, managing pharmacy inventory, and providing admin analytics. It supports three roles: `admin`, `pharmacy`, and `user` with role‑based dashboards and real data visualizations.
 
 ## Features
