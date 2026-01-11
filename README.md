@@ -1,3 +1,7 @@
+<p align="center">
+	<img src="assets/images/mapp.png" alt="Med Tracker" width="180" />
+</p>
+
 # Med Tracker (Arba Minch)
 
 Med Tracker is a PHP/MySQL web application for searching medicines across pharmacies in Arba Minch, managing pharmacy inventory, and providing admin analytics. It supports three roles: `admin`, `pharmacy`, and `user` with role‑based dashboards and real data visualizations.
