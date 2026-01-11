@@ -1,8 +1,11 @@
-<p align="center">
-	<img src="assets/images/mapp.png" alt="Med Tracker" width="180" />
-</p>
-
 # Med Tracker (Arba Minch)
+
+<p align="center">
+	<img src="https://img.shields.io/badge/PHP-8.x-777BB4?logo=php&logoColor=white" alt="PHP" />
+	<img src="https://img.shields.io/badge/MySQL-8-00618A?logo=mysql&logoColor=white" alt="MySQL" />
+	<img src="https://img.shields.io/badge/Chart.js-4-FF6384?logo=chartdotjs&logoColor=white" alt="Chart.js" />
+	<img src="https://img.shields.io/badge/Font%20Awesome-6-228BE6?logo=fontawesome&logoColor=white" alt="Font Awesome" />
+</p>
 
 Med Tracker is a PHP/MySQL web application for searching medicines across pharmacies in Arba Minch, managing pharmacy inventory, and providing admin analytics. It supports three roles: `admin`, `pharmacy`, and `user` with role‑based dashboards and real data visualizations.
 
