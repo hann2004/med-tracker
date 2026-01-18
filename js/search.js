@@ -3,7 +3,9 @@
 	const apiUrl = (window.APP_SEARCH_API || '/search_api.php');
 	const isAuth = !!window.IS_AUTH;
 	const loginUrl = window.LOGIN_URL || '/login.php?next=1';
+	const signupUrl = window.REGISTER_URL || ((window.APP_BASE || '') + '/register.php');
 	const inputs = document.querySelectorAll('[data-suggest]');
+	attachAuthGuards();
 
 	inputs.forEach((input) => {
 		const container = findSuggestionsContainer(input);
@@ -108,9 +110,13 @@
 			<i class="fas fa-lock" style="color: var(--clinical-accent, #2563eb);"></i>
 			<div style="flex:1;">
 				<div style="font-weight:700; color: var(--clinical-text, #0f172a);">Login required</div>
-				<div style="font-size:0.9rem; color: var(--clinical-text-light, #475569);">Sign in to search medicines.</div>
+				<div style="font-size:0.9rem; color: var(--clinical-text-light, #475569);">Sign in or sign up to search medicines.</div>
 			</div>
-			<a href="${loginUrl}" style="font-weight:700; color: var(--clinical-accent, #2563eb);">Login</a>
+			<div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+				<a href="${loginUrl}" style="font-weight:700; color: var(--clinical-accent, #2563eb);">Sign in</a>
+				<span style="color: var(--clinical-text-light, #475569);">or</span>
+				<a href="${signupUrl}" style="font-weight:700; color: var(--clinical-accent, #2563eb);">Sign up</a>
+			</div>
 		`;
 		container.appendChild(row);
 		show(container);
@@ -148,5 +154,24 @@
 
 	function escapeAttribute(str) {
 		return escapeHtml(str || '');
+	}
+
+	function attachAuthGuards() {
+		if (isAuth) return;
+		document.querySelectorAll('[data-requires-auth]').forEach((form) => {
+			form.addEventListener('submit', (e) => {
+				e.preventDefault();
+				showAuthPrompt();
+			});
+		});
+	}
+
+	function showAuthPrompt() {
+		const message = 'Please sign in or sign up to search medicines.';
+		if (confirm(`${message}\n\nOK = Sign in, Cancel = Sign up`)) {
+			window.location.href = loginUrl;
+			return;
+		}
+		window.location.href = signupUrl;
 	}
 })();

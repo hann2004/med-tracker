@@ -102,6 +102,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .alert { padding: 0.85rem 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: var(--space-sm); font-weight: 600; margin-top: var(--space-md); }
         .alert-error { background: rgba(239,68,68,0.08); color: #b91c1c; border: 1px solid rgba(239,68,68,0.25); }
         @media (max-width: 992px) { .auth-card { grid-template-columns: 1fr; } .auth-visual { display: none; } }
+        @media (max-width: 640px) {
+            .auth-shell { padding: var(--space-xl) var(--space-md); }
+            .auth-card { border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+            .auth-form-pane { padding: var(--space-xl); }
+            .form-row { grid-template-columns: 1fr; }
+            .actions { flex-direction: column; align-items: flex-start; }
+            .btn-primary { width: 100%; }
+        }
     </style>
 </head>
 <body>

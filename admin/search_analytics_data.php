@@ -11,13 +11,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'admin') {
 header('Content-Type: application/json');
 $conn = getDatabaseConnection();
 
-// Searches by day for last 14 days
-$byDay = $conn->query("SELECT DATE(search_date) as d, COUNT(*) as c FROM searches WHERE search_date >= DATE_SUB(CURDATE(), INTERVAL 14 DAY) GROUP BY DATE(search_date) ORDER BY d ASC")->fetch_all(MYSQLI_ASSOC);
+// Support flexible time range
+$days = isset($_GET['days']) && in_array((int)$_GET['days'], [7,14,30]) ? (int)$_GET['days'] : 7;
+$byDay = $conn->query("SELECT DATE(search_date) as d, COUNT(*) as c FROM searches WHERE search_date >= DATE_SUB(CURDATE(), INTERVAL {$days} DAY) GROUP BY DATE(search_date) ORDER BY d ASC")->fetch_all(MYSQLI_ASSOC);
 $labelsDay = [];
 $valuesDay = [];
-
-// Ensure continuous days even if zero
-for ($i = 13; $i >= 0; $i--) {
+for ($i = $days-1; $i >= 0; $i--) {
     $date = date('Y-m-d', strtotime("-{$i} day"));
     $labelsDay[] = date('M d', strtotime($date));
     $found = 0;

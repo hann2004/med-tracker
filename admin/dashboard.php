@@ -153,7 +153,7 @@ $recentRequests = $conn->query("
         .metric-change.negative { background: #fee2e2; color: var(--admin-warning); }
     </style>
 </head>
-<body class="admin-dashboard">
+<body class="admin-dashboard dark-theme">
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
@@ -336,31 +336,102 @@ $recentRequests = $conn->query("
             
             <!-- Activity & Requests -->
             <div class="simple-grid">
+                <!-- Recent Reviews Card -->
                 <div class="section-card">
-                    <div class="card-header">
-                        <h3>Recent Activities</h3>
-                        <!-- Logs link removed per request -->
+                    <div class="card-header" style="justify-content: space-between;">
+                        <h3>Recent Reviews</h3>
+                        <a href="reviews.php" class="btn-link">See all</a>
                     </div>
                     <div class="card-body">
-                        <div class="activity-list">
-                            <?php foreach($recentActivities as $activity): ?>
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-<?php echo getActivityIcon($activity['action_type']); ?>"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title"><?php echo htmlspecialchars($activity['username'] ?? 'System'); ?></div>
-                                    <div class="activity-desc"><?php echo getActivityDescription($activity); ?></div>
-                                    <div class="activity-time">
-                                        <?php echo time_elapsed_string($activity['created_at']); ?>
+                        <?php
+                        $recentReviews = $conn->query('SELECT r.*, m.medicine_name, u.username, u.profile_image, p.pharmacy_name FROM reviews_and_ratings r LEFT JOIN medicines m ON r.medicine_id = m.medicine_id LEFT JOIN users u ON r.user_id = u.user_id LEFT JOIN pharmacies p ON r.pharmacy_id = p.pharmacy_id ORDER BY r.created_at DESC LIMIT 3')->fetch_all(MYSQLI_ASSOC);
+                        if (count($recentReviews) === 0): ?>
+                            <div style="color:#888;">No reviews yet.</div>
+                        <?php else: ?>
+                            <?php foreach ($recentReviews as $rev): ?>
+                                <div class="review" style="display:flex; gap:14px; align-items:flex-start; background:var(--clinical-light); border:1px solid var(--clinical-border); border-radius:12px; padding:14px; margin-bottom:14px;">
+                                    <div style="flex-shrink:0;">
+                                        <?php if (!empty($rev['profile_image'])): ?>
+                                            <img src="<?php echo htmlspecialchars($rev['profile_image']); ?>" alt="avatar" style="width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid #eaf4ff;">
+                                        <?php else: ?>
+                                            <div style="width:44px; height:44px; border-radius:50%; background:#eaf4ff; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#4b5b70; border:2px solid #eaf4ff;">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div style="flex:1;">
+                                        <div style="display:flex; align-items:center; gap:8px;">
+                                            <strong><?php echo htmlspecialchars($rev['username']); ?></strong>
+                                            <span style="color:#f0b429; font-size:1.1rem; font-weight:700;">
+                                                <?php echo str_repeat('★', (int)$rev['rating']); ?><?php echo str_repeat('☆', max(0, 5-(int)$rev['rating'])); ?>
+                                            </span>
+                                            <span style="color:#475569; font-size:0.95rem;">for <?php echo htmlspecialchars($rev['medicine_name']); ?></span>
+                                            <span style="color:#475569; font-size:0.95rem;">at <?php echo htmlspecialchars($rev['pharmacy_name']); ?></span>
+                                        </div>
+                                        <div style="margin:6px 0 2px 0; color:#102542; font-size:1.05rem; font-weight:500;">
+                                            <?php echo htmlspecialchars($rev['review_title'] ?? ''); ?>
+                                        </div>
+                                        <div style="color:#4b5b70; font-size:0.98rem; margin-bottom:4px;">
+                                            <?php echo nl2br(htmlspecialchars($rev['review_text'])); ?>
+                                        </div>
+                                        <div style="font-size:0.85rem; color:#888;">
+                                            <i class="fas fa-clock"></i> <?php echo date('M d, Y', strtotime($rev['created_at'])); ?>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             <?php endforeach; ?>
-                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
+                <!-- Recent Reports Card -->
+                <div class="section-card">
+                    <div class="card-header" style="justify-content: space-between;">
+                        <h3>Recent Reports</h3>
+                        <a href="reports.php" class="btn-link">See all</a>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        $recentReports = $conn->query('SELECT r.*, u.username, u.profile_image, p.pharmacy_name, m.medicine_name FROM reports r LEFT JOIN users u ON r.user_id = u.user_id LEFT JOIN pharmacies p ON r.pharmacy_id = p.pharmacy_id LEFT JOIN medicines m ON r.medicine_id = m.medicine_id ORDER BY r.created_at DESC LIMIT 3')->fetch_all(MYSQLI_ASSOC);
+                        if (count($recentReports) === 0): ?>
+                            <div style="color:#888;">No reports yet.</div>
+                        <?php else: ?>
+                            <?php foreach ($recentReports as $rep): ?>
+                                <div class="review" style="display:flex; gap:14px; align-items:flex-start; background:var(--clinical-light); border:1px solid var(--clinical-border); border-radius:12px; padding:14px; margin-bottom:14px;">
+                                    <div style="flex-shrink:0;">
+                                        <?php if (!empty($rep['profile_image'])): ?>
+                                            <img src="<?php echo htmlspecialchars($rep['profile_image']); ?>" alt="avatar" style="width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid #eaf4ff;">
+                                        <?php else: ?>
+                                            <div style="width:44px; height:44px; border-radius:50%; background:#eaf4ff; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#4b5b70; border:2px solid #eaf4ff;">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div style="flex:1;">
+                                        <div style="display:flex; align-items:center; gap:8px;">
+                                            <strong><?php echo htmlspecialchars($rep['username']); ?></strong>
+                                            <span class="badge badge-info" style="margin-left:8px;">Type: <?php echo htmlspecialchars($rep['report_type']); ?></span>
+                                            <?php if (!empty($rep['medicine_name'])): ?>
+                                                <span style="color:#475569; font-size:0.95rem;">on <?php echo htmlspecialchars($rep['medicine_name']); ?></span>
+                                            <?php endif; ?>
+                                            <?php if (!empty($rep['pharmacy_name'])): ?>
+                                                <span style="color:#475569; font-size:0.95rem;">at <?php echo htmlspecialchars($rep['pharmacy_name']); ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div style="margin:6px 0 2px 0; color:#102542; font-size:1.05rem; font-weight:500;">
+                                            <?php echo htmlspecialchars($rep['description'] ?? ''); ?>
+                                        </div>
+                                        <div style="font-size:0.85rem; color:#888;">
+                                            <i class="fas fa-clock"></i> <?php echo date('M d, Y', strtotime($rep['created_at'])); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Recent Medicine Requests (unchanged) -->
                 <div class="section-card">
                     <div class="card-header">
                         <h3>Recent Medicine Requests</h3>

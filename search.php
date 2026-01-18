@@ -175,9 +175,19 @@ function logSearch(mysqli $conn, string $query, int $resultCount, array $results
         .stock-low { color: #f59e0b; font-weight: 600; }
         .empty-state { text-align: center; padding: 3rem 1rem; border: 1px dashed #e5e7eb; border-radius: 14px; background: #f9fafb; }
         @media (max-width: 900px) {
-            .search-form-wide { grid-template-columns: 1fr; }
+            .search-layout { padding: 1rem 0.5rem 2rem; }
+            .search-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+            .search-form-wide { grid-template-columns: 1fr; gap: 0.5rem; }
             .result-card { grid-template-columns: 1fr; }
             .pharmacy-row { grid-template-columns: 1fr; gap: 0.35rem; }
+        }
+        @media (max-width: 640px) {
+            .search-layout { padding: 0.5rem 0.25rem 1rem; }
+            .result-card { padding: 0.5rem; }
+            .result-card img { height: 90px; }
+            .pharmacy-list { gap: 0.35rem; }
+            .search-header h1 { font-size: 1.2rem; }
+            .badge-pill { font-size: 0.75rem; padding: 0.15rem 0.5rem; }
         }
     </style>
 </head>
@@ -283,6 +293,7 @@ function logSearch(mysqli $conn, string $query, int $resultCount, array $results
         window.APP_SEARCH_API = (window.APP_BASE || '') + '/search_api.php';
         window.IS_AUTH = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
         window.LOGIN_URL = (window.APP_BASE || '') + '/login.php?next=1';
+        window.REGISTER_URL = (window.APP_BASE || '') + '/register.php';
     </script>
     <script src="js/search.js"></script>
 </body>

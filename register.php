@@ -1,5 +1,9 @@
 <?php
+
 require_once 'config/database.php';
+require_once __DIR__ . '/vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $conn = getDatabaseConnection();
 $success = '';
@@ -45,10 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Username or email already exists';
         } else {
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
-            $is_verified = ($user_type === 'pharmacy') ? 0 : 1;
+            // Always require email verification for both user and pharmacy
+            $is_verified = 0;
+            $verification_token = bin2hex(random_bytes(32));
 
-            $insertStmt = $conn->prepare("INSERT INTO users (username, email, password_hash, user_type, full_name, phone_number, address, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $insertStmt->bind_param("sssssssi", $username, $email, $password_hash, $user_type, $full_name, $phone, $address, $is_verified);
+            $insertStmt = $conn->prepare("INSERT INTO users (username, email, password_hash, user_type, full_name, phone_number, address, is_verified, verification_token) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $insertStmt->bind_param("sssssssis", $username, $email, $password_hash, $user_type, $full_name, $phone, $address, $is_verified, $verification_token);
 
             if ($insertStmt->execute()) {
                 $user_id = $conn->insert_id;
@@ -59,22 +65,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $pharmacyStmt->close();
                 }
 
-                // Auto-login and redirect based on role
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
-                $_SESSION['user_id'] = $user_id;
-                $_SESSION['username'] = $username;
-                $_SESSION['user_type'] = $user_type;
-                $_SESSION['full_name'] = $full_name;
-                $_SESSION['is_verified'] = (bool)$is_verified;
-
                 if ($user_type === 'pharmacy') {
+                    // Do NOT send activation/verification email yet
+                    // Show pending message and redirect to pending page
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $_SESSION['user_id'] = $user_id;
+                    $_SESSION['username'] = $username;
+                    $_SESSION['user_type'] = $user_type;
+                    $_SESSION['full_name'] = $full_name;
+                    $_SESSION['is_verified'] = false;
+                    $success = 'Registration successful! Your pharmacy is pending admin approval. You will be notified by email when approved or declined.';
                     header('Location: pharmacy/pending.php');
+                    exit;
                 } else {
-                    header('Location: user/dashboard.php');
+                    // Send verification email for normal users only
+                    $mail = new PHPMailer(true);
+                    try {
+                        $mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';
+                        $mail->SMTPAuth = true;
+                        $mail->Username = 'medicine.trackerarbaminch@gmail.com';
+                        $mail->Password = 'xukw hgxz odxb mgmh'; // App Password
+                        $mail->SMTPSecure = 'tls';
+                        $mail->Port = 587;
+
+                        $mail->setFrom('medicine.trackerarbaminch@gmail.com', 'MedTracker');
+                        $mail->addAddress($email, $full_name);
+                        $mail->isHTML(true);
+                        $mail->Subject = 'Verify your email address';
+                        $verifyUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/verify_email.php?token=$verification_token";
+                        $mail->Body = "<h2>Welcome to MedTrack!</h2><p>To activate your account, please verify your email by clicking the link below:</p><p><a href='$verifyUrl'>$verifyUrl</a></p><p>If you did not register, please ignore this email.</p>";
+                        $mail->AltBody = "Welcome to MedTrack! To activate your account, visit: $verifyUrl";
+                        $mail->send();
+                        $success = 'Registration successful! Please check your email to verify your account.';
+                    } catch (Exception $e) {
+                        $error = 'Registration succeeded, but verification email could not be sent. Contact support.';
+                    }
                 }
-                exit;
             } else {
                 $error = 'Registration failed. Please try again.';
             }
@@ -119,6 +148,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .benefits { display: grid; gap: var(--space-sm); }
         .pill { display: inline-flex; align-items: center; gap: var(--space-sm); padding: 0.75rem 1rem; background: rgba(37,99,235,0.08); color: var(--clinical-text); border-radius: var(--radius-lg); border: 1px solid rgba(37,99,235,0.12); }
         @media (max-width: 992px) { .auth-card { grid-template-columns: 1fr; } .auth-visual { display: none; } }
+        @media (max-width: 640px) {
+            .auth-shell { padding: var(--space-xl) var(--space-md); }
+            .auth-card { border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+            .auth-form-pane { padding: var(--space-xl); }
+            .form-row { grid-template-columns: 1fr; }
+            .type-toggle { width: 100%; justify-content: space-between; }
+        }
     </style>
 </head>
 <body>

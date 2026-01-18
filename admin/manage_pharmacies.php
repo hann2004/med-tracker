@@ -3,6 +3,10 @@ session_start();
 require_once '../config/database.php';
 require_once '../includes/auth_functions.php';
 
+require_once __DIR__ . '/../vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 if (!isset($_SESSION['user_id']) || ($_SESSION['user_type'] ?? '') !== 'admin') {
     header('Location: ../login.php');
     exit();
@@ -55,12 +59,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $u->close();
             }
 
+            // Get pharmacy and owner info for email
+            $infoStmt = $conn->prepare("SELECT p.pharmacy_name, u.full_name, u.email FROM pharmacies p JOIN users u ON p.owner_id = u.user_id WHERE p.pharmacy_id = ? LIMIT 1");
+            $infoStmt->bind_param('i', $pharmacyId);
+            $infoStmt->execute();
+            $infoRow = $infoStmt->get_result()->fetch_assoc();
+            $infoStmt->close();
+            if ($infoRow && !empty($infoRow['email'])) {
+                $mail = new PHPMailer(true);
+                try {
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'medicine.trackerarbaminch@gmail.com';
+                    $mail->Password = 'xukw hgxz odxb mgmh';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+                    $mail->setFrom('medicine.trackerarbaminch@gmail.com', 'MedTracker');
+                    $mail->addAddress($infoRow['email'], $infoRow['full_name']);
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Your Pharmacy Has Been Approved';
+                    $mail->Body = "<h2>Congratulations!</h2><p>Your pharmacy <strong>" . htmlspecialchars($infoRow['pharmacy_name']) . "</strong> has been approved and is now active on MedTrack.</p><p>You can now log in and manage your inventory.</p>";
+                    $mail->AltBody = "Your pharmacy '" . $infoRow['pharmacy_name'] . "' has been approved and is now active on MedTrack.";
+                    $mail->send();
+                } catch (Exception $e) {
+                    // Optionally log error
+                }
+            }
+
             $message = 'Pharmacy approved.';
         } elseif ($action === 'deactivate') {
             $stmt = $conn->prepare("UPDATE pharmacies SET is_active = 0 WHERE pharmacy_id = ? LIMIT 1");
             $stmt->bind_param('i', $pharmacyId);
             $stmt->execute();
             $stmt->close();
+
+            // Get pharmacy and owner info for email
+            $infoStmt = $conn->prepare("SELECT p.pharmacy_name, u.full_name, u.email FROM pharmacies p JOIN users u ON p.owner_id = u.user_id WHERE p.pharmacy_id = ? LIMIT 1");
+            $infoStmt->bind_param('i', $pharmacyId);
+            $infoStmt->execute();
+            $infoRow = $infoStmt->get_result()->fetch_assoc();
+            $infoStmt->close();
+            if ($infoRow && !empty($infoRow['email'])) {
+                $mail = new PHPMailer(true);
+                try {
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'medicine.trackerarbaminch@gmail.com';
+                    $mail->Password = 'xukw hgxz odxb mgmh';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+                    $mail->setFrom('medicine.trackerarbaminch@gmail.com', 'MedTracker');
+                    $mail->addAddress($infoRow['email'], $infoRow['full_name']);
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Pharmacy Registration Declined or Deactivated';
+                    $mail->Body = "<h2>Notice</h2><p>Your pharmacy <strong>" . htmlspecialchars($infoRow['pharmacy_name']) . "</strong> has been declined or deactivated by the admin. Please contact support if you believe this is a mistake.</p>";
+                    $mail->AltBody = "Your pharmacy '" . $infoRow['pharmacy_name'] . "' has been declined or deactivated by the admin.";
+                    $mail->send();
+                } catch (Exception $e) {
+                    // Optionally log error
+                }
+            }
+
             $message = 'Pharmacy deactivated.';
         } elseif ($action === 'delete') {
             $stmt = $conn->prepare("DELETE FROM pharmacies WHERE pharmacy_id = ? LIMIT 1");

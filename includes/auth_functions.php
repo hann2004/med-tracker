@@ -53,7 +53,14 @@ function authLogin(mysqli $conn, string $identifier, string $password): array {
 		return ['success' => false, 'message' => 'Invalid credentials'];
 	}
 
-	// Email verification is not required for login
+	// Block login for unverified users (except pharmacy, who go to pending page)
+	if (!$user['is_verified']) {
+		if ($user['user_type'] === 'pharmacy') {
+			// Allow login but redirect to pending page
+		} else {
+			return ['success' => false, 'message' => 'Please verify your email before logging in.'];
+		}
+	}
 
 	authResetAttempts($conn, (int) $user['user_id']);
 	authUpdateLoginMeta($conn, (int) $user['user_id']);

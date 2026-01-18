@@ -1,4 +1,5 @@
 /* Pharmacy dashboard styling aligned with the clinical theme */
+
 :root {
     --clinical-white: #ffffff;
     --clinical-offwhite: #f4f9ff;
@@ -24,6 +25,82 @@
     --sidebar-dark-muted: #a0a8b6;
     --sidebar-hover: rgba(255, 255, 255, 0.06);
 }
+
+.dark-theme {
+    --clinical-white: #181c23;
+    --clinical-offwhite: #232733;
+    --clinical-light: #232733;
+    --clinical-border: #232733;
+    --clinical-text: #e5e7eb;
+    --clinical-text-light: #a0a8b6;
+    --clinical-accent: #7ccab3;
+    --clinical-accent-2: #b8dcff;
+    --clinical-warning: #f0b429;
+    --clinical-danger: #ef4444;
+    --clinical-info: #7ccab3;
+    --sidebar-dark-bg: #181c23;
+    --sidebar-dark-border: #232733;
+    --sidebar-dark-text: #e5e7eb;
+    --sidebar-dark-muted: #a0a8b6;
+    --sidebar-hover: rgba(255,255,255,0.04);
+    background: #181c23 !important;
+    color: #e5e7eb !important;
+}
+
+body.pharmacy-dashboard.dark-theme {
+    background: #181c23;
+    color: #e5e7eb;
+}
+
+/* Card, header, and section backgrounds for dark mode */
+.dark-theme .card,
+.dark-theme .pharmacy-header,
+.dark-theme .review,
+.dark-theme .stock-alert,
+.dark-theme .expiry-alert,
+.dark-theme .main-content,
+.dark-theme .dropdown-menu {
+    background: #232733 !important;
+    color: #e5e7eb !important;
+    border-color: #232733 !important;
+}
+
+.dark-theme .sidebar {
+    background: #181c23 !important;
+    color: #e5e7eb !important;
+    border-color: #232733 !important;
+}
+
+.dark-theme .menu-item,
+.dark-theme .menu-item .badge,
+.dark-theme .pharmacy-badge,
+.dark-theme .legend-item {
+    background: #232733 !important;
+    color: #e5e7eb !important;
+    border-color: #232733 !important;
+}
+
+.dark-theme .menu-item.active,
+.dark-theme .menu-item:hover {
+    background: #232733 !important;
+    color: #b8dcff !important;
+}
+
+.dark-theme .action-btn,
+.dark-theme .btn-light,
+.dark-theme .user-btn {
+    background: #232733 !important;
+    color: #e5e7eb !important;
+    border-color: #232733 !important;
+}
+
+.dark-theme .dropdown-menu a:hover {
+    background: #232733 !important;
+    color: #b8dcff !important;
+}
+
+.dark-theme .pharmacy-status.verified { background: rgba(126, 201, 255, 0.10) !important; color: #b8dcff !important; }
+.dark-theme .pharmacy-status.pending { background: rgba(240, 180, 41, 0.10) !important; color: #f7c66a !important; }
 
 body.pharmacy-dashboard {
     margin: 0;
@@ -160,10 +237,11 @@ body.pharmacy-dashboard {
 
 /* Main layout */
 .main-content {
-    margin-left: 260px;
-    padding: 0 26px 96px;
-    width: calc(100% - 260px);
+    margin-left: 220px;
+    padding: 0 32px 36px;
+    width: calc(100% - 220px);
     transition: margin-left var(--transition), width var(--transition);
+    min-height: 100vh;
 }
 
 .main-content.expanded { margin-left: 76px; width: calc(100% - 76px); }
@@ -518,25 +596,52 @@ body.pharmacy-dashboard {
 
 /* Utilities */
 .text-danger { color: var(--clinical-danger); }
-.text-warning { color: var(--clinical-warning); }
-.text-success { color: var(--clinical-accent); }
 
-/* Responsive */
-@media (max-width: 1100px) {
-    .stock-distribution { grid-template-columns: 1fr; }
+.card, .review {
+    background: var(--clinical-white);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 12px rgba(37,99,235,0.07), 0 1.5px 4px rgba(16,37,66,0.06);
+    border: 1.5px solid var(--clinical-border);
+    margin-bottom: 18px;
+    padding: 18px 20px;
+    transition: box-shadow 0.18s, transform 0.18s;
+}
+.card:hover, .review:hover {
+    box-shadow: 0 16px 48px rgba(37,99,235,0.13);
+    transform: translateY(-2px) scale(1.012);
+    z-index: 2;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 0.93rem;
+    background: var(--clinical-light);
+    color: var(--clinical-accent);
+    border: 1.5px solid var(--clinical-border);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    box-shadow: 0 1px 4px rgba(37,99,235,0.04);
 }
 
 @media (max-width: 900px) {
-    .sidebar { position: fixed; transform: translateX(-100%); }
-    .sidebar.collapsed { transform: translateX(0); width: 260px; }
-    .main-content { margin-left: 0; width: 100%; }
-    .topbar { position: static; }
+    body.pharmacy-dashboard { flex-direction: column; }
+    .sidebar { position: relative; width: 100%; height: auto; transform: none; box-shadow: none; border-right: none; }
+    .sidebar.collapsed { width: 100%; }
+    .main-content { margin-left: 0; width: 100%; padding: 0 16px 32px; }
+    .topbar { justify-content: flex-start; gap: 12px; position: sticky; top: 0; background: var(--clinical-white); }
+    .topbar-actions { flex-wrap: wrap; }
+    .dashboard-content, .stats-grid, .actions-grid, .stock-distribution, .inventory-grid, .card-body, .distribution-list { grid-template-columns: 1fr; }
+    .dashboard-footer { position: static; left: 0; right: 0; margin-top: 12px; }
 }
 
-@media (max-width: 720px) {
-    .header-content { flex-direction: column; align-items: flex-start; }
-    .topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
-    .actions-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-    .stats-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-    .stock-distribution { grid-template-columns: 1fr; }
+@media (max-width: 640px) {
+    .search-box input { width: 160px; }
+    .header-content, .pharmacy-meta, .pharmacy-actions { flex-direction: column; align-items: flex-start; }
+    .card-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .chart-body, .distribution-chart { height: 240px; }
 }
+.text-warning { color: var(--clinical-warning); }
+.text-success { color: var(--clinical-accent); }

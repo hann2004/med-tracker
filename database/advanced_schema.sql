@@ -1,9 +1,25 @@
 -- --------------------------------------------------------
+-- Table structure for table `reports` (user/admin reports)
+-- --------------------------------------------------------
+
+CREATE TABLE `reports` (
+  `report_id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `pharmacy_id` INT DEFAULT NULL,
+  `medicine_id` INT DEFAULT NULL,
+  `review_id` INT DEFAULT NULL,
+  `report_type` VARCHAR(100) NOT NULL,
+  `description` TEXT NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`pharmacy_id`) REFERENCES `pharmacies`(`pharmacy_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`medicine_id`) REFERENCES `medicines`(`medicine_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`review_id`) REFERENCES `reviews_and_ratings`(`review_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- --------------------------------------------------------
 -- Advanced Medicine Tracker Database - Complete Version
 -- --------------------------------------------------------
 
-CREATE DATABASE IF NOT EXISTS `med_tracker_pro` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `med_tracker_pro`;
 
 -- Reset existing tables to avoid creation errors during import
 SET FOREIGN_KEY_CHECKS = 0;
@@ -260,7 +276,8 @@ CREATE TABLE `views` (
 CREATE TABLE `reviews_and_ratings` (
   `review_id` INT(11) NOT NULL AUTO_INCREMENT,
   `user_id` INT(11) NOT NULL,
-  `pharmacy_id` INT(11) NOT NULL,
+  `pharmacy_id` INT(11) DEFAULT NULL,
+  `medicine_id` INT(11) DEFAULT NULL,
   `rating` TINYINT(1) NOT NULL CHECK (rating >= 1 AND rating <= 5),
   `review_title` VARCHAR(200),
   `review_text` TEXT,
@@ -278,6 +295,7 @@ CREATE TABLE `reviews_and_ratings` (
   PRIMARY KEY (`review_id`),
   FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE,
   FOREIGN KEY (`pharmacy_id`) REFERENCES `pharmacies`(`pharmacy_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`medicine_id`) REFERENCES `medicines`(`medicine_id`) ON DELETE CASCADE,
   UNIQUE KEY `unique_review` (`user_id`, `pharmacy_id`),
   INDEX `idx_pharmacy_rating` (`pharmacy_id`, `rating`),
   INDEX `idx_recent_reviews` (`created_at`)
@@ -885,6 +903,7 @@ SECURITY FEATURES:
 6. Audit logging
 7. Two-factor authentication support
 */
+Fatal error: Uncaught mysqli_sql_exception: Unknown column 'is_active' in 'WHERE' in /home/vol4_5/infinityfree.com/if0_40875712/htdocs/index.php:19 Stack trace: #0 /home/vol4_5/infinityfree.com/if0_40875712/htdocs/index.php(19): mysqli->query('SELECT COUNT(*)...') #1 {main} thrown in /home/vol4_5/infinityfree.com/if0_40875712/htdocs/index.php on line 19
 
 -- Display completion message
 SELECT 'Database med_tracker_pro created successfully!' as message;

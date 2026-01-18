@@ -106,6 +106,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </form>
         </div>
+
+        <!-- Reviews About This Pharmacy -->
+        <div class="card" style="margin-top:2.5rem;">
+            <h2>Reviews About Your Pharmacy</h2>
+            <?php
+            $pharmacyId = $pharmacy['pharmacy_id'];
+            $reviews = $conn->query("SELECT r.*, u.username, m.medicine_name FROM reviews_and_ratings r LEFT JOIN users u ON r.user_id = u.user_id LEFT JOIN medicines m ON r.medicine_id = m.medicine_id WHERE r.pharmacy_id = $pharmacyId ORDER BY r.created_at DESC")->fetch_all(MYSQLI_ASSOC);
+            if (count($reviews) === 0): ?>
+                <div style="color:#888;">No reviews for your pharmacy yet.</div>
+            <?php else: ?>
+                <?php foreach ($reviews as $rev): ?>
+                    <div style="border-bottom:1px solid #e5e7eb; padding:0.7rem 0;">
+                        <strong><?php echo htmlspecialchars($rev['username']); ?></strong>
+                        <span style="color:#f59e0b; font-weight:700;"> <?php echo str_repeat('★', (int)$rev['rating']); ?></span>
+                        <span style="color:#475569; font-size:0.95rem;">for <?php echo htmlspecialchars($rev['medicine_name']); ?></span>
+                        <div><?php echo htmlspecialchars($rev['review_text']); ?></div>
+                        <div style="font-size:0.85rem; color:#888;">on <?php echo htmlspecialchars($rev['created_at']); ?></div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
     </div>
 </body>
 </html>

@@ -159,7 +159,7 @@ $recentRequests = [];
             .legend-swatch { width:10px; height:10px; border-radius:2px; display:inline-block; }
     </style>
 </head>
-<body class="pharmacy-dashboard">
+<body class="pharmacy-dashboard dark-theme">
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
@@ -384,6 +384,52 @@ $recentRequests = [];
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <!-- Recent Reviews Section -->
+            <div class="card" style="margin:32px 0 0 0; padding:20px; max-width:700px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                    <h2 style="margin:0; font-size:1.3rem;">Recent Reviews</h2>
+                    <a href="reviews.php" class="badge" style="text-decoration:none; font-size:0.95rem;">See all</a>
+                </div>
+                <?php
+                $pharmacyId = $pharmacy['pharmacy_id'];
+                $recentReviews = $conn->query("SELECT r.*, u.username, u.full_name, u.profile_image, m.medicine_name FROM reviews_and_ratings r LEFT JOIN users u ON r.user_id = u.user_id LEFT JOIN medicines m ON r.medicine_id = m.medicine_id WHERE r.pharmacy_id = $pharmacyId ORDER BY r.created_at DESC LIMIT 5")->fetch_all(MYSQLI_ASSOC);
+                if (count($recentReviews) === 0): ?>
+                    <div style="color:#888;">No reviews for your pharmacy yet.</div>
+                <?php else: ?>
+                    <?php foreach ($recentReviews as $rev): ?>
+                        <div class="review" style="background:#f7fbff; border:1px solid #d9e7f6; border-radius:12px; padding:14px; margin-bottom:14px; display:flex; gap:14px; align-items:flex-start;">
+                            <div style="flex-shrink:0;">
+                                <?php if (!empty($rev['profile_image'])): ?>
+                                    <img src="<?php echo htmlspecialchars($rev['profile_image']); ?>" alt="avatar" style="width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid #eaf4ff;">
+                                <?php else: ?>
+                                    <div style="width:44px; height:44px; border-radius:50%; background:#eaf4ff; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#4b5b70; border:2px solid #eaf4ff;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div style="flex:1;">
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <strong><?php echo htmlspecialchars($rev['full_name'] ?: $rev['username']); ?></strong>
+                                    <span style="color:#f0b429; font-size:1.1rem; font-weight:700;">
+                                        <?php echo str_repeat('★', (int)$rev['rating']); ?><?php echo str_repeat('☆', max(0, 5-(int)$rev['rating'])); ?>
+                                    </span>
+                                    <span style="color:#475569; font-size:0.95rem;">for <?php echo htmlspecialchars($rev['medicine_name']); ?></span>
+                                </div>
+                                <div style="margin:6px 0 2px 0; color:#102542; font-size:1.05rem; font-weight:500;">
+                                    <?php echo htmlspecialchars($rev['review_title'] ?? ''); ?>
+                                </div>
+                                <div style="color:#4b5b70; font-size:0.98rem; margin-bottom:4px;">
+                                    <?php echo nl2br(htmlspecialchars($rev['review_text'])); ?>
+                                </div>
+                                <div style="font-size:0.85rem; color:#888;">
+                                    <i class="fas fa-clock"></i> <?php echo date('M d, Y', strtotime($rev['created_at'])); ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
         

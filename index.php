@@ -359,7 +359,7 @@ if (empty($markers)) {
                             <span>Medicine Availability Search</span>
                         </div>
                         
-                        <form action="search.php" method="GET" class="search-form" id="heroSearchForm">
+                        <form action="search.php" method="GET" class="search-form" id="heroSearchForm" data-requires-auth="true">
                             <!-- Medicine Name -->
                             <div class="search-field">
                                 <label class="field-label">Medicine Name</label>
@@ -821,23 +821,12 @@ if (empty($markers)) {
         window.APP_SEARCH_API = (window.APP_BASE || '') + '/search_api.php';
         window.IS_AUTH = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
         window.LOGIN_URL = (window.APP_BASE || '') + '/login.php?next=1';
+        window.REGISTER_URL = (window.APP_BASE || '') + '/register.php';
     </script>
     <script src="js/search.js"></script>
     <script>
         // Modern Clinical Interactions
         document.addEventListener('DOMContentLoaded', function() {
-
-            // If not authenticated, intercept hero search submit to redirect to login
-            if (!window.IS_AUTH) {
-                const heroForm = document.getElementById('heroSearchForm');
-                if (heroForm) {
-                    heroForm.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        window.location.href = '/med-tracker/login.php?next=' + encodeURIComponent('/med-tracker/search.php');
-                    });
-                }
-            }
-            
             // Navbar scroll effect
             const navbar = document.querySelector('.system-nav');
             window.addEventListener('scroll', () => {
