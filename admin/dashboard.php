@@ -153,7 +153,7 @@ $recentRequests = $conn->query("
         .metric-change.negative { background: #fee2e2; color: var(--admin-warning); }
     </style>
 </head>
-<body class="admin-dashboard dark-theme">
+<body class="admin-dashboard">
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">

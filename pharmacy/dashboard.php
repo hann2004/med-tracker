@@ -159,7 +159,7 @@ $recentRequests = [];
             .legend-swatch { width:10px; height:10px; border-radius:2px; display:inline-block; }
     </style>
 </head>
-<body class="pharmacy-dashboard dark-theme">
+<body class="pharmacy-dashboard">
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
