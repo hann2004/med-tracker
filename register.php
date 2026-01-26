@@ -83,6 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Send verification email for normal users only
                     $mail = new PHPMailer(true);
                     try {
+                        // Enable verbose debug output (comment out in production)
+                        $mail->SMTPDebug = 2; // 0 = off, 1 = client, 2 = client and server
+                        $mail->Debugoutput = function($str, $level) {
+                            error_log("PHPMailer [$level]: $str");
+                        };
+                        
                         $mail->isSMTP();
                         $mail->Host = 'smtp.gmail.com';
                         $mail->SMTPAuth = true;
@@ -90,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $mail->Password = 'xukw hgxz odxb mgmh'; // App Password
                         $mail->SMTPSecure = 'tls';
                         $mail->Port = 587;
+                        $mail->Timeout = 30; // Increase timeout to 30 seconds
 
                         $mail->setFrom('medicine.trackerarbaminch@gmail.com', 'MedTracker');
                         $mail->addAddress($email, $full_name);
@@ -101,7 +108,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $mail->send();
                         $success = 'Registration successful! Please check your email to verify your account.';
                     } catch (Exception $e) {
-                        $error = 'Registration succeeded, but verification email could not be sent. Contact support.';
+                        // Log the actual error for debugging
+                        error_log("Email sending failed: " . $e->getMessage());
+                        $error = 'Registration succeeded, but verification email could not be sent. Error: ' . $e->getMessage();
                     }
                 }
             } else {
