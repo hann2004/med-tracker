@@ -83,8 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Send verification email for normal users only
                     $mail = new PHPMailer(true);
                     try {
-                        // Enable verbose debug output (comment out in production)
-                        $mail->SMTPDebug = 2; // 0 = off, 1 = client, 2 = client and server
+                        // SMTP Debug: 0 = off, 1 = client, 2 = client and server
+                        $mail->SMTPDebug = 0; // Set to 2 for debugging if issues occur
                         $mail->Debugoutput = function($str, $level) {
                             error_log("PHPMailer [$level]: $str");
                         };
