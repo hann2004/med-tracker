@@ -298,10 +298,11 @@ $categories = $conn->query("SELECT category_id, category_name FROM medicine_cate
 					<label>Package Size (optional)</label>
 					<input type="text" name="package_size" placeholder="e.g., 10 tablets">
 				</div>
-				<div style="display:flex; align-items:center; gap:8px;">
+				<label class="clinical-checkbox">
 					<input type="checkbox" id="requires_prescription" name="requires_prescription">
-					<label for="requires_prescription" style="margin:0;">Requires Prescription</label>
-				</div>
+					<span class="checkbox-box"></span>
+					<span>Requires Prescription</span>
+				</label>
 
 				<div class="section-title" style="grid-column:1 / -1;">Batch & Supplier (optional)</div>
 				<div>
@@ -321,14 +322,16 @@ $categories = $conn->query("SELECT category_id, category_name FROM medicine_cate
 					<input type="number" name="discount_percentage" step="0.01" min="0" max="100" placeholder="0">
 					<p class="field-note">Optional; set discount and toggle if active.</p>
 				</div>
-				<div style="display:flex; align-items:center; gap:8px;">
+				<label class="clinical-checkbox">
 					<input type="checkbox" id="is_discounted" name="is_discounted">
-					<label for="is_discounted" style="margin:0;">Discount Active</label>
-				</div>
-				<div style="display:flex; align-items:center; gap:8px;">
+					<span class="checkbox-box"></span>
+					<span>Discount Active</span>
+				</label>
+				<label class="clinical-checkbox">
 					<input type="checkbox" id="is_featured" name="is_featured">
-					<label for="is_featured" style="margin:0;">Featured Item</label>
-				</div>
+					<span class="checkbox-box"></span>
+					<span>Featured Item</span>
+				</label>
 				<div style="grid-column:1 / -1; text-align:right;">
 					<button class="btn primary" type="submit">Save Medicine</button>
 				</div>

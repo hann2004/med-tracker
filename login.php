@@ -53,64 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Login | MedTrack Arba Minch</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .auth-shell {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: var(--space-2xl) var(--space-lg);
-        }
-        .auth-card {
-            width: 100%;
-            max-width: 1100px;
-            background: var(--clinical-white);
-            border: 1px solid var(--clinical-border);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-xl);
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            overflow: hidden;
-        }
-        .auth-form-pane { padding: var(--space-3xl); }
-        .auth-visual {
-            background: var(--gradient-medical);
-            padding: var(--space-3xl);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border-left: 1px solid var(--clinical-border);
-        }
-        .auth-header h1 { margin: 0 0 var(--space-sm); }
-        .auth-header p { margin: 0; color: var(--clinical-text-light); }
-        .auth-logo { display: inline-flex; align-items: center; gap: var(--space-sm); font-weight: 800; color: var(--clinical-text); text-decoration: none; }
-        .auth-logo-icon { width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--gradient-accent); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-accent); }
-        .form-stack { display: grid; gap: var(--space-lg); margin-top: var(--space-2xl); }
-        .form-group { display: grid; gap: var(--space-xs); }
-        .form-group label { font-weight: 600; color: var(--clinical-text); display: flex; align-items: center; gap: var(--space-xs); }
-        .form-group input { border: 1px solid var(--clinical-border); border-radius: var(--radius-md); padding: 0.9rem 1rem; font-size: 1rem; background: var(--clinical-white); transition: var(--transition-fast); }
-        .form-group input:focus { outline: none; border-color: var(--clinical-accent); box-shadow: 0 0 0 4px rgba(37,99,235,0.08); }
-        .form-row { display: grid; gap: var(--space-lg); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-        .actions { display: flex; justify-content: space-between; align-items: center; gap: var(--space-md); }
-        .actions a { color: var(--clinical-accent); text-decoration: none; font-weight: 600; }
-        .actions a:hover { text-decoration: underline; }
-        .btn-primary { width: 100%; justify-content: center; padding: 0.95rem 1rem; font-size: 1.05rem; }
-        .supporting { color: var(--clinical-text-light); font-size: 0.95rem; text-align: center; margin-top: var(--space-lg); }
-        .pill-list { display: grid; gap: var(--space-sm); }
-        .pill { display: inline-flex; align-items: center; gap: var(--space-sm); padding: 0.75rem 1rem; background: rgba(37,99,235,0.08); color: var(--clinical-text); border-radius: var(--radius-lg); border: 1px solid rgba(37,99,235,0.12); }
-        .alert { padding: 0.85rem 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: var(--space-sm); font-weight: 600; margin-top: var(--space-md); }
-        .alert-error { background: rgba(239,68,68,0.08); color: #b91c1c; border: 1px solid rgba(239,68,68,0.25); }
-        @media (max-width: 992px) { .auth-card { grid-template-columns: 1fr; } .auth-visual { display: none; } }
-        @media (max-width: 640px) {
-            .auth-shell { padding: var(--space-xl) var(--space-md); }
-            .auth-card { border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
-            .auth-form-pane { padding: var(--space-xl); }
-            .form-row { grid-template-columns: 1fr; }
-            .actions { flex-direction: column; align-items: flex-start; }
-            .btn-primary { width: 100%; }
-        }
-    </style>
+
 </head>
 <body>
     <div class="auth-shell">
@@ -145,8 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="password" name="password" placeholder="Enter your password" required>
                         </div>
                         <div class="actions">
-                            <label style="display:flex;align-items:center;gap:8px;">
-                                <input type="checkbox" name="remember"> Remember me
+                            <label class="clinical-checkbox">
+                                <input type="checkbox" name="remember">
+                                <span class="checkbox-box"></span>
+                                <span>Remember me</span>
                             </label>
                             <a href="forgot-password.php">Forgot password?</a>
                         </div>

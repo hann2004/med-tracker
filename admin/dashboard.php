@@ -92,66 +92,11 @@ $recentRequests = $conn->query("
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Admin CSS -->
-    <link rel="stylesheet" href="../styles/admin.css?v=20260111">
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="../styles/main.css">
     
-    <style>
-        :root {
-            --admin-primary: #4a5568;
-            --admin-secondary: #6b7280;
-            --admin-success: #7ccab3;
-            --admin-warning: #f0b429;
-            --admin-info: #6b7280;
-            --admin-dark: #1f2a3d;
-            --admin-light: #f4f7fb;
-            --admin-border: #d9e1ed;
-        }
-        
-        .metric-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            border-left: 4px solid #e2e8f0;
-            transition: transform 0.2s ease;
-        }
-        
-        .metric-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .metric-card.success { border-left-color: var(--admin-success); }
-        .metric-card.warning { border-left-color: var(--admin-warning); }
-        .metric-card.info { border-left-color: var(--admin-info); }
-        
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--admin-dark);
-            line-height: 1;
-        }
-        
-        .metric-label {
-            color: #6b7280;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .metric-change {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            background: #f3f4f6;
-            color: #6b7280;
-        }
-        
-        .metric-change.positive { background: #d1fae5; color: var(--admin-success); }
-        .metric-change.negative { background: #fee2e2; color: var(--admin-warning); }
-    </style>
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="../styles/admin.css?v=20260126">
 </head>
 <body class="admin-dashboard">
     <!-- Sidebar -->

@@ -105,59 +105,13 @@ $recentRequests = [];
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Pharmacy CSS -->
-    <link rel="stylesheet" href="../styles/pharmacy.css?v=20260111">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="../styles/main.css">
     
-    <style>
-        :root {
-            --pharmacy-primary: #dbe5f1;
-            --pharmacy-secondary: #eef3f9;
-            --pharmacy-warning: #f0b429;
-            --pharmacy-danger: #e86b6b;
-            --pharmacy-info: #c3cfdf;
-        }
-        
-        .pharmacy-header {
-            background: linear-gradient(135deg, #f1f8ff, #e5f3ff);
-            color: var(--clinical-text);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 20px rgba(16, 37, 66, 0.08);
-            border: 1px solid #d9e7f6;
-        }
-        
-        .pharmacy-badge {
-            background: #eaf4ff;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            border: 1px solid #d9e7f6;
-            color: var(--clinical-text);
-        }
-        
-        .stock-alert {
-            border-left: 4px solid var(--pharmacy-danger);
-            background: #fff7f7;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-        
-        .expiry-alert {
-            border-left: 4px solid var(--pharmacy-warning);
-            background: #fff9ec;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-            .legend-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-            .legend-item { display:flex; align-items:center; gap:6px; padding:4px 8px; border:1px solid #d9e7f6; border-radius:10px; background:#f7fbff; color:#102542; font-size:0.85rem; }
-            .legend-swatch { width:10px; height:10px; border-radius:2px; display:inline-block; }
-    </style>
+    <!-- Pharmacy CSS -->
+    <link rel="stylesheet" href="../styles/pharmacy.css?v=20260127">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
 <body class="pharmacy-dashboard">
     <!-- Sidebar -->

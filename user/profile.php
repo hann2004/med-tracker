@@ -57,25 +57,7 @@ if (!$user) {
 	<title>My Profile | MedTrack</title>
 	<link rel="stylesheet" href="../styles/main.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	<style>
-		body { background: var(--clinical-offwhite); }
-		.profile-shell { max-width: 900px; margin: 100px auto 60px; padding: 0 var(--space-md); }
-		.profile-card { background: #fff; border: 1px solid var(--clinical-border); border-radius: 16px; box-shadow: var(--shadow-lg); padding: 24px; }
-		.profile-header { display:flex; align-items:center; gap:16px; margin-bottom:20px; }
-		.avatar-lg { width:64px; height:64px; border-radius:50%; background: var(--gradient-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.5rem; }
-		form { display:grid; gap:16px; }
-		label { font-weight:700; color: var(--clinical-text); }
-		input, textarea { width:100%; border:1px solid var(--clinical-border); border-radius:10px; padding:12px; font-size:1rem; }
-		textarea { min-height:110px; resize: vertical; }
-		.grid-2 { display:grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
-		.actions { display:flex; justify-content:flex-end; gap:12px; margin-top:8px; }
-		.alert { padding:12px 14px; border-radius:10px; font-weight:600; }
-		.alert-success { background: rgba(16,185,129,0.12); color:#0f9d58; border:1px solid rgba(16,185,129,0.2); }
-		.alert-error { background: rgba(239,68,68,0.12); color:#b91c1c; border:1px solid rgba(239,68,68,0.2); }
-		.top-nav { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
-		.btn-secondary { padding:10px 14px; border-radius:10px; border:1px solid var(--clinical-border); background:#fff; font-weight:700; color: var(--clinical-text); text-decoration:none; display:inline-flex; gap:8px; align-items:center; }
-		.btn-primary { padding:12px 16px; border-radius:10px; border:none; background: var(--clinical-accent); color:#fff; font-weight:800; cursor:pointer; box-shadow: var(--shadow-sm); }
-	</style>
+
 </head>
 <body>
 	<div class="profile-shell">

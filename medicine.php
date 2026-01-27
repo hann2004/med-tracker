@@ -122,20 +122,7 @@ $reviews = $conn->query("SELECT r.*, u.username FROM reviews_and_ratings r JOIN 
     <title><?php echo htmlspecialchars($medicine['medicine_name']); ?> | Availability</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
-        .hero-card { display: grid; grid-template-columns: 260px 1fr; gap: 1.5rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1.5rem; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-        .hero-card img { width: 100%; border-radius: 12px; object-fit: cover; height: 240px; }
-        .pill { padding: 6px 10px; border-radius: 999px; background: rgba(37,99,235,0.1); color: #1d4ed8; font-weight: 700; display: inline-flex; gap: 6px; align-items: center; }
-        .pill.rx { background: rgba(239,68,68,0.12); color: #b91c1c; }
-        .availability { margin-top: 1.5rem; display: grid; gap: 0.85rem; }
-        .avail-row { display: grid; grid-template-columns: 1.15fr 0.5fr 0.4fr; gap: 0.75rem; align-items: center; border: 1px solid #e5e7eb; border-radius: 12px; padding: 0.9rem 1rem; background: #f8fafc; }
-        .price { font-weight: 800; color: #1d4ed8; }
-        .stock { font-weight: 600; }
-        .stock.ok { color: #0f9d58; }
-        .stock.low { color: #f59e0b; }
-        @media (max-width: 900px) { .hero-card { grid-template-columns: 1fr; } .avail-row { grid-template-columns: 1fr; } }
-    </style>
+
 </head>
 <body>
     <nav class="system-nav" style="position:sticky;top:0;z-index:20;">
@@ -151,7 +138,7 @@ $reviews = $conn->query("SELECT r.*, u.username FROM reviews_and_ratings r JOIN 
         </div>
     </nav>
 
-    <main class="page">
+    <main class="medicine-page">
         <div class="hero-card">
             <img src="<?php echo htmlspecialchars(resolveImage($medicine)); ?>" alt="<?php echo htmlspecialchars($medicine['medicine_name']); ?>">
             <div>

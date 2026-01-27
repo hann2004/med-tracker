@@ -154,42 +154,7 @@ function logSearch(mysqli $conn, string $query, int $resultCount, array $results
     <title>Search Medicines | MedTrack Arba Minch</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .search-layout { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
-        .search-header { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
-        .search-form-wide { width: 100%; display: grid; grid-template-columns: 1.2fr 0.8fr auto; gap: 0.75rem; }
-        .search-input-wrapper { position: relative; }
-        .search-suggestions { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.12); max-height: 260px; overflow-y: auto; display: none; z-index: 50; }
-        .search-suggestions.show { display: block; }
-        .search-suggestions .suggestion-item { padding: 12px 14px; display: flex; gap: 10px; align-items: center; cursor: pointer; }
-        .search-suggestions .suggestion-item:hover { background: rgba(37,99,235,0.08); }
-        .badge-pill { padding: 0.25rem 0.65rem; border-radius: 999px; font-size: 0.85rem; background: rgba(37,99,235,0.1); color: #1d4ed8; }
-        .results-grid { display: grid; gap: 1rem; }
-        .result-card { border: 1px solid #e5e7eb; border-radius: 14px; padding: 1rem; display: grid; grid-template-columns: 160px 1fr; gap: 1rem; background: #fff; box-shadow: 0 6px 16px rgba(0,0,0,0.04); }
-        .result-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 12px; }
-        .pharmacy-list { display: grid; gap: 0.65rem; margin-top: 0.5rem; }
-        .pharmacy-row { display: grid; grid-template-columns: 1.1fr 0.5fr 0.4fr; align-items: center; padding: 0.65rem 0.75rem; border: 1px solid #e5e7eb; border-radius: 10px; background: #f8fafc; }
-        .pharmacy-row strong { display: block; }
-        .price { font-weight: 800; color: #1d4ed8; }
-        .stock-ok { color: #0f9d58; font-weight: 600; }
-        .stock-low { color: #f59e0b; font-weight: 600; }
-        .empty-state { text-align: center; padding: 3rem 1rem; border: 1px dashed #e5e7eb; border-radius: 14px; background: #f9fafb; }
-        @media (max-width: 900px) {
-            .search-layout { padding: 1rem 0.5rem 2rem; }
-            .search-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-            .search-form-wide { grid-template-columns: 1fr; gap: 0.5rem; }
-            .result-card { grid-template-columns: 1fr; }
-            .pharmacy-row { grid-template-columns: 1fr; gap: 0.35rem; }
-        }
-        @media (max-width: 640px) {
-            .search-layout { padding: 0.5rem 0.25rem 1rem; }
-            .result-card { padding: 0.5rem; }
-            .result-card img { height: 90px; }
-            .pharmacy-list { gap: 0.35rem; }
-            .search-header h1 { font-size: 1.2rem; }
-            .badge-pill { font-size: 0.75rem; padding: 0.15rem 0.5rem; }
-        }
-    </style>
+
 </head>
 <body>
     <nav class="system-nav" style="position:sticky;top:0;z-index:20;">

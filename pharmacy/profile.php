@@ -63,25 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Edit Pharmacy Profile</title>
     <link rel="stylesheet" href="../styles/pharmacy.css?v=20260111">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { background:#f7fbff; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin:0; }
-        .page { max-width: 720px; margin: 40px auto; padding: 0 16px; }
-        .card { background:#fff; border:1px solid #d9e7f6; border-radius:14px; box-shadow:0 8px 20px rgba(16,37,66,0.06); padding:18px; }
-        label { display:block; font-weight:700; color:#102542; margin-bottom:6px; }
-        input, textarea { width:100%; padding:10px; border:1px solid #d9e7f6; border-radius:10px; margin-bottom:12px; }
-        textarea { min-height: 100px; resize: vertical; }
-        .actions { display:flex; justify-content:flex-end; gap:10px; }
-        .btn { border:1px solid #d9e7f6; background:#f7fbff; padding:10px 12px; border-radius:10px; cursor:pointer; font-weight:700; color:#102542; }
-        .btn.primary { background:#102542; color:#fff; border-color:#102542; }
-        .alert { padding:10px 12px; border-radius:10px; border:1px solid #d9e7f6; background:#eef3f8; color:#102542; margin-bottom:12px; }
-        .alert.error { background:#fff7f7; border-color:#f3c4c4; color:#b91c1c; }
-        a.back { color:#4b5b70; text-decoration:none; font-weight:700; display:inline-flex; align-items:center; gap:6px; margin-bottom:12px; }
-    </style>
+
 </head>
 <body>
-    <div class="page">
-        <a class="back" href="dashboard.php"><i class="fas fa-arrow-left"></i> Back to dashboard</a>
-        <div class="card">
+    <div class="pharmacy-page">
+        <a class="pharmacy-back-link" href="dashboard.php"><i class="fas fa-arrow-left"></i> Back to dashboard</a>
+        <div class="pharmacy-card-main">
             <h1 style="margin-top:0;">Edit Pharmacy Profile</h1>
             <p style="color:#4b5b70; margin-top:4px;">Update your visible pharmacy details.</p>
 
@@ -108,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <!-- Reviews About This Pharmacy -->
-        <div class="card" style="margin-top:2.5rem;">
+        <div class="pharmacy-card-main" style="margin-top:2.5rem;">
             <h2>Reviews About Your Pharmacy</h2>
             <?php
             $pharmacyId = $pharmacy['pharmacy_id'];
